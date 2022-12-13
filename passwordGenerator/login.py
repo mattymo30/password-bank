@@ -1,45 +1,59 @@
 from tkinter import *
 
-
-def main_screen_login():
-    login_screen = Tk()
-    login_screen.title("Login Page")
-    login_screen.geometry("400x300")
-    Label(text="Password Bank", font=25).pack()
-    Label(text="").pack()
-    Button(text="Login", height="2", width="30", command=login).pack()
-    Label(text="").pack()
-    Button(text="Register", height="2", width="30", command=register).pack()
-    login_screen.mainloop()
+login_screen = Tk()
+login_screen.title("Login Page")
+login_screen.geometry("400x300")
 
 
-def register():
-    register_screen = Tk()
-    register_screen.title("Registration")
-    register_screen.geometry("400x300")
-    Label(register_screen, text="Register User", font=25).pack()
-    Label(register_screen, text="Username").pack()
-    Entry(register_screen).pack()
-    Label(register_screen, text="Password").pack()
-    Entry(register_screen).pack()
-    register_screen.mainloop()
-
-
-def login():
-    login_screen = Tk()
+def change_to_login():
     login_screen.title("Login")
-    login_screen.geometry("400x300")
-    Label(login_screen, text="Login", font=25).pack()
-    Label(login_screen, text="Username").pack()
-    Entry(login_screen).pack()
-    Label(login_screen, text="Password").pack()
-    Entry(login_screen).pack()
-    login_screen.mainloop()
+    register_frame.forget()
+    entry_frame.forget()
+    login_frame.pack(fill='both', expand=1)
 
 
-def main():
-    main_screen_login()
+def change_to_register():
+    login_screen.title("Register User")
+    login_frame.forget()
+    entry_frame.forget()
+    register_frame.pack(fill='both', expand=1)
 
 
-if __name__ == "__main__":
-    main()
+def change_to_entry():
+    login_screen.title("Login Page")
+    login_frame.forget()
+    register_frame.forget()
+    entry_frame.pack(fill='both', expand=1)
+
+
+login_frame = Frame(login_screen)
+register_frame = Frame(login_screen)
+entry_frame = Frame(login_screen)
+
+
+Label(entry_frame, text="Password Bank", font=25).pack()
+Label(entry_frame, text="").pack()
+Button(entry_frame, text="Login", height="2", width="30", command=change_to_login).pack()
+Label(entry_frame, text="").pack()
+Button(entry_frame, text="Register", height="2", width="30", command=change_to_register).pack()
+
+
+Label(register_frame, text="Register User", font=25).pack()
+Label(register_frame, text="Username").pack()
+Entry(register_frame).pack()
+Label(register_frame, text="Password").pack()
+Entry(register_frame).pack()
+Button(register_frame, text="Register", height='2', width='20').pack()
+Button(register_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+
+Label(login_frame, text="Login", font=25).pack()
+Label(login_frame, text="Username").pack()
+Entry(login_frame).pack()
+Label(login_frame, text="Password").pack()
+Entry(login_frame, show='*').pack()
+Button(login_frame, text="Login", height='2', width='20').pack()
+Button(login_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+
+
+entry_frame.pack(fill='both', expand=1)
+login_screen.mainloop()
