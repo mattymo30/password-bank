@@ -57,6 +57,14 @@ def change_to_entry():
     entry_frame.pack(fill='both', expand=1)
 
 
+def check_register(user, passw):
+    did_register = register.registration(user, passw)
+    if did_register is False:
+        is_good_register.config(text="Please enter a valid username and password", fg="Red")
+    else:
+        is_good_register.config(text="Registration Successful", fg="Green")
+
+
 # create all frames, only one will be visible at a time
 login_frame = Frame(login_screen)
 register_frame = Frame(login_screen)
@@ -71,6 +79,8 @@ Button(entry_frame, text="Register", height="2", width="30", command=change_to_r
 
 # widgets for register frame
 Label(register_frame, text="Register User", font=25).pack()
+Label(register_frame, text="First Name").pack()
+
 Label(register_frame, text="Username").pack()
 username = Entry(register_frame)
 username.pack()
@@ -78,7 +88,9 @@ Label(register_frame, text="Password").pack()
 password = Entry(register_frame)
 password.pack()
 Button(register_frame, text="Register", height='2', width='20',
-       command=lambda: register.registration(username.get(), password.get())).pack()
+       command=lambda: check_register(username.get(), password.get())).pack()
+is_good_register = Label(register_frame, text="")
+is_good_register.pack()
 Button(register_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
 
 # widgets for login frame
