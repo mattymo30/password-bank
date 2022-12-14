@@ -13,3 +13,5 @@ def registration(username, password):
     file.close()
     key_file = open("keys.txt", 'a')
     key_file.write(str(key))
+    key_file.write('\n')
+    key_file.close()
