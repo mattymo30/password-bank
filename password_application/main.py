@@ -89,9 +89,10 @@ password = Entry(register_frame)
 password.pack()
 Button(register_frame, text="Register", height='2', width='20',
        command=lambda: check_register(username.get(), password.get())).pack()
+Button(register_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
 is_good_register = Label(register_frame, text="")
 is_good_register.pack()
-Button(register_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+
 
 # widgets for login frame
 Label(login_frame, text="Login", font=25).pack()

@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_application/database.txt" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/database.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_application/keys.txt" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/keys.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/register.py" afterDir="false" />
     </list>
@@ -61,12 +59,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
-          <line>33</line>
+          <line>48</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>107</line>
+          <line>108</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -76,12 +74,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
-          <line>42</line>
+          <line>69</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
-          <line>56</line>
+          <line>89</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -91,7 +89,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
-          <line>4</line>
+          <line>11</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
