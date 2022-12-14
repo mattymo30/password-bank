@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_application/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/database.bin" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/database.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/keys.bin" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/keys.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/register.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +65,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>121</line>
+          <line>122</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -79,7 +80,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
-          <line>111</line>
+          <line>123</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

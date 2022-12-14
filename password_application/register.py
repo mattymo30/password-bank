@@ -83,23 +83,35 @@ def registration(username, password):
 
 
 def check_login(username, password):
+    # open binary files that hold login info and keys
     data_file = open("database.bin", 'rb')
     key_file = open("keys.bin", 'rb')
+    # for every line in data_file
     for (i, line) in enumerate(data_file):
+        # split line based on tabs and decode the username
         line_split = line.split(bytes('\t', 'utf-8'))
         user = line_split[0].decode()
+        # if given username matches user
         if user == username:
+            # read all lines of key_file and find line where login key should
+            # be at
             keys = key_file.readlines()
             user_key = keys[i]
+            # decrypt the password from data file and decode into str
             f = Fernet(user_key)
             decrypted_pass = f.decrypt(line_split[1]).decode()
+            # if password is correct
             if decrypted_pass == password:
                 return True
             else:
+                # password was incorrect
                 return False
+    # if for loop goes through all of data_file and no username matches,
+    # return False
     print("Username not in database")
     data_file.close()
     key_file.close()
+    return False
 
 
 def main():
