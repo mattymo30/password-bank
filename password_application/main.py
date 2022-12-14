@@ -1,49 +1,96 @@
-import tkinter as tk
-import random
-from tkinter import messagebox
-WINDOW = tk.Tk()
-WINDOW.geometry("400x400")
-new_pass = tk.StringVar()
+from tkinter import *  # import tkinter for GUI
+import register
+
+# start up a screen with dimensions of 400x300 pixels
+login_screen = Tk()
+login_screen.title("Login Page")
+width = 400
+height = 300
+screen_width = login_screen.winfo_screenwidth()  # Width of the screen
+screen_height = login_screen.winfo_screenheight()  # Height of the screen
+x = (screen_width / 2) - (width / 2)
+y = (screen_height / 2) - (height / 2)
+login_screen.geometry("%dx%d+%d+%d" % (width, height, x, y))
 
 
-def generate(pass_length):
-    password = ""
-    poss_symbol = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                   'u',
-                   'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-                   'P',
-                   'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                   '!', '#', '$', '%', '&', '(', ')', '*', '+']
-    for n in range(pass_length):
-        password = password + random.choice(poss_symbol)
-
-    return password
-
-
-def get_pass_len():
-    user_length = int(password_len.get())
-    if user_length <= 0 or user_length > 30:
-        tk.messagebox.showinfo("INVALID", "Invalid number of digits")
-    else:
-        new_password.config(text=generate(user_length))
+def change_to_login():
+    """
+    change screen to the login frame from either entry or register
+    frame
+    """
+    # change title of screen
+    login_screen.title("Login")
+    # clear screen of any widgets so widgets associated with login_frame show
+    register_frame.forget()
+    entry_frame.forget()
+    # pack screen with all login_frame widgets
+    login_frame.pack(fill='both', expand=1)
 
 
-password_label = tk.Label(WINDOW, text="Enter the number of digits for new password between"
-                                       " 1-30: ")
-password_label.pack()
-password_len = tk.Entry(WINDOW)
-password_len.pack()
-new_password = tk.Label(WINDOW, text="New Password")
-new_password.pack()
-find_len = tk.Button(WINDOW, text="Get Password", command=get_pass_len)
-find_len.pack()
-WINDOW.mainloop()
-"""
-password_length = int(input("Enter the number of digits for new password between"
-                            " 1-30: "))
-if password_length <= 0 or password_length > 30:
-    print("INVALID NUMBER OF DIGITS")
-else:
-    print(generate(password_length))
-"""
+def change_to_register():
+    """
+    change screen to the register frame from either entry or login
+    frame
+    """
+    # change title of screen
+    login_screen.title("Register User")
+    # clear screen of any widgets so widgets associated with
+    # register_frame show
+    login_frame.forget()
+    entry_frame.forget()
+    # pack screen with all register_frame widgets
+    register_frame.pack(fill='both', expand=1)
+
+
+def change_to_entry():
+    """
+    change screen to the entry frame from either register or login
+    frame
+    """
+    # change title of screen
+    login_screen.title("Login Page")
+    # clear screen of any widgets so widgets associated with
+    # entry_frame show
+    login_frame.forget()
+    register_frame.forget()
+    # pack screen with all entry_frame widgets
+    entry_frame.pack(fill='both', expand=1)
+
+
+# create all frames, only one will be visible at a time
+login_frame = Frame(login_screen)
+register_frame = Frame(login_screen)
+entry_frame = Frame(login_screen)
+
+# widgets for entry_frame
+Label(entry_frame, text="Password Bank", font=25).pack()
+Label(entry_frame, text="").pack()
+Button(entry_frame, text="Login", height="2", width="30", command=change_to_login).pack()
+Label(entry_frame, text="").pack()
+Button(entry_frame, text="Register", height="2", width="30", command=change_to_register).pack()
+
+# widgets for register frame
+Label(register_frame, text="Register User", font=25).pack()
+Label(register_frame, text="Username").pack()
+username = Entry(register_frame)
+username.pack()
+Label(register_frame, text="Password").pack()
+password = Entry(register_frame)
+password.pack()
+Button(register_frame, text="Register", height='2', width='20',
+       command=lambda: register.registration(username.get(), password.get())).pack()
+Button(register_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+
+# widgets for login frame
+Label(login_frame, text="Login", font=25).pack()
+Label(login_frame, text="Username").pack()
+Entry(login_frame).pack()
+Label(login_frame, text="Password").pack()
+Entry(login_frame, show='*').pack()
+Button(login_frame, text="Login", height='2', width='20').pack()
+Button(login_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+
+# the entry frame needs to be shown when the program starts
+# pack to screen first and call mainloop() on the login_screen
+entry_frame.pack(fill='both', expand=1)
+login_screen.mainloop()
