@@ -60,9 +60,19 @@ def change_to_entry():
 def check_register(user, passw):
     did_register = register.registration(user, passw)
     if did_register is False:
-        is_good_register.config(text="Please enter a valid username and password", fg="Red")
+        is_good_register.config(text="Please enter a valid username and"
+                                     " password", fg="Red")
     else:
         is_good_register.config(text="Registration Successful", fg="Green")
+
+
+def login(user, passw):
+    login_correct = register.check_login(user, passw)
+    if login_correct is True:
+        login_success.config(text="Login Successful", fg="Green")
+    else:
+        login_success.config(text="Login failed. Please check username and"
+                                  " password", fg="Red")
 
 
 # create all frames, only one will be visible at a time
@@ -97,11 +107,15 @@ is_good_register.pack()
 # widgets for login frame
 Label(login_frame, text="Login", font=25).pack()
 Label(login_frame, text="Username").pack()
-Entry(login_frame).pack()
+login_username = Entry(login_frame)
+login_username.pack()
 Label(login_frame, text="Password").pack()
-Entry(login_frame, show='*').pack()
-Button(login_frame, text="Login", height='2', width='20').pack()
+login_password = Entry(login_frame, show='*')
+login_password.pack()
+Button(login_frame, text="Login", height='2', width='20', command=lambda: login(login_username.get(), login_password.get())).pack()
 Button(login_frame, text="Back", height='2', width='20', command=change_to_entry).pack()
+login_success = Label(login_frame, text="")
+login_success.pack()
 
 # the entry frame needs to be shown when the program starts
 # pack to screen first and call mainloop() on the login_screen

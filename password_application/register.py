@@ -64,20 +64,42 @@ def registration(username, password):
         key = Fernet.generate_key()
         f = Fernet(key)
         # open database.txt
-        file = open("database.txt", 'a')
+        file = open("database.bin", 'ab')
         # convert password to bytes and encrypt using the key
+        user = bytes(username, 'utf-8')
         byte_pass = bytes(password, 'utf-8')
         encrypt_pass = f.encrypt(byte_pass)
         # write to txt the username and password
-        file.write(str(username) + '\t')
-        file.write(str(encrypt_pass))
-        file.write('\n')
+        file.write(user)
+        file.write(bytes('\t', 'utf-8'))
+        file.write(encrypt_pass)
+        file.write(bytes('\n', 'utf-8'))
         file.close()
         # open keys to hold the login's key and write the key used
-        key_file = open("keys.txt", 'a')
-        key_file.write(str(key))
-        key_file.write('\n')
+        key_file = open("keys.bin", 'ab')
+        key_file.write(key)
+        key_file.write(bytes('\n', 'utf-8'))
         key_file.close()
+
+
+def check_login(username, password):
+    data_file = open("database.bin", 'rb')
+    key_file = open("keys.bin", 'rb')
+    for (i, line) in enumerate(data_file):
+        line_split = line.split(bytes('\t', 'utf-8'))
+        user = line_split[0].decode()
+        if user == username:
+            keys = key_file.readlines()
+            user_key = keys[i]
+            f = Fernet(user_key)
+            decrypted_pass = f.decrypt(line_split[1]).decode()
+            if decrypted_pass == password:
+                return True
+            else:
+                return False
+    print("Username not in database")
+    data_file.close()
+    key_file.close()
 
 
 def main():
