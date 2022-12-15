@@ -120,4 +120,11 @@ login_success.pack()
 # the entry frame needs to be shown when the program starts
 # pack to screen first and call mainloop() on the login_screen
 entry_frame.pack(fill='both', expand=1)
-login_screen.mainloop()
+
+
+def main():
+    login_screen.mainloop()
+
+
+if __name__ == "__main__":
+    main()

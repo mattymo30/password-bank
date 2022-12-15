@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/password_application/password_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/database.bin" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/database.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/keys.bin" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/keys.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_application/register.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/register.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,12 +73,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>122</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>99</line>
+          <line>103</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -92,16 +95,6 @@
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
           <line>11</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>68</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/password_application/main.py</url>
-          <line>69</line>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
