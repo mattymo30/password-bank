@@ -11,7 +11,6 @@ x = (screen_width / 2) - (width / 2)
 y = (screen_height / 2) - (height / 2)
 manager_screen.geometry("%dx%d+%d+%d" % (width, height, x, y))
 
-
 conn = sqlite3.connect("passmanager.db")
 cursor = conn.cursor()
 cursor.execute("""
@@ -28,6 +27,27 @@ def submit_new():
     conn = sqlite3.connect("passmanager.db")
     cursor = conn.cursor()
 
+    if (web_name.get() != "" and url_name.get() != ""
+            and user_id.get() != "" and password.get() != ""):
+        cursor.execute("INSERT INTO manager "
+                       "VALUES (:website, :url, :id, :password)",
+                       {
+                        'website': web_name.get(),
+                        'url': url_name.get(),
+                        'id': user_id.get(),
+                        'password': password.get()
+                       }
+                       )
+        conn.commit()
+        conn.close()
+        web_name.delete(0, END)
+        url_name.delete(0, END)
+        user_id.delete(0, END)
+        password.delete(0, END)
+        did_add.config(text="Successfully Submitted!", fg="Green")
+    else:
+        did_add.config(text="Submission Unsuccessful. "
+                            "No Entry Can Be Blank", fg="Red")
 
 def change_to_add():
     manager_screen.title("Add New Query")
@@ -66,7 +86,6 @@ add_frame = Frame(manager_screen)
 update_frame = Frame(manager_screen)
 query_frame = Frame(manager_screen)
 
-
 Label(main_menu, text="Welcome!", font=25).pack()
 Label(main_menu, text="").pack()
 Button(main_menu, text="Add New Record", height="2", width="30", command=change_to_add).pack()
@@ -89,9 +108,12 @@ user_id.pack()
 Label(add_frame, text="Password").pack()
 password = Entry(add_frame)
 password.pack()
-Button(add_frame, text="Add").pack()
-Button(add_frame, text="Back To Main", command=change_to_main).pack()
-
+Button(add_frame, text="Add",
+       command=submit_new).pack()
+Button(add_frame, text="Back To Main",
+       command=change_to_main).pack()
+did_add = Label(add_frame, text="")
+did_add.pack()
 
 Label(update_frame, text="Update Record", font=25).pack()
 Label(update_frame, text="Website/App to Update")
@@ -105,7 +127,6 @@ new_pass = Entry(update_frame)
 new_pass.pack()
 Button(update_frame, text="Update").pack()
 Button(update_frame, text="Back To Main", command=change_to_main).pack()
-
 
 main_menu.pack(fill='both', expand=1)
 
