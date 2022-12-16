@@ -49,6 +49,19 @@ def submit_new():
         did_add.config(text="Submission Unsuccessful. "
                             "No Entry Can Be Blank", fg="Red")
 
+
+def display():
+    conn = sqlite3.connect("passmanager.db")
+    cursor = conn.cursor()
+    show_query.place_forget()
+    cursor.execute("SELECT *, oid FROM manager")
+    records = cursor.fetchall()
+    query_display['text'] = records
+    query_display.pack()
+    conn.commit()
+    conn.close()
+
+
 def change_to_add():
     manager_screen.title("Add New Query")
     main_menu.forget()
@@ -116,7 +129,7 @@ did_add = Label(add_frame, text="")
 did_add.pack()
 
 Label(update_frame, text="Update Record", font=25).pack()
-Label(update_frame, text="Website/App to Update")
+Label(update_frame, text="Website/App to Update").pack()
 site_app = Entry(update_frame)
 site_app.pack()
 Label(update_frame, text="New Username/ID").pack()
@@ -127,6 +140,13 @@ new_pass = Entry(update_frame)
 new_pass.pack()
 Button(update_frame, text="Update").pack()
 Button(update_frame, text="Back To Main", command=change_to_main).pack()
+
+
+show_query = Button(query_frame, text="Show All Saved Info", command=display)
+show_query.pack()
+query_display = Label(query_frame, anchor="nw")
+Button(query_frame, text="Back To Main", command=change_to_main).pack()
+
 
 main_menu.pack(fill='both', expand=1)
 
