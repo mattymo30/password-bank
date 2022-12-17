@@ -53,12 +53,12 @@ def submit_new():
 def display():
     conn = sqlite3.connect("passmanager.db")
     cursor = conn.cursor()
-    show_query.place_forget()
     cursor.execute("SELECT *, oid FROM manager")
     records = cursor.fetchall()
-    all_recs = ""
+    all_recs = "Site:\tURL:\tID:\tPassword:\n"
     for record in records:
-        all_recs += str(record) + "\n"
+        all_recs += record[0] + "\t" + record[1] + "\t" + record[2] +\
+                    "\t" + record[3] + "\n"
     query_display['text'] = all_recs
     query_display.pack()
     conn.commit()
@@ -66,26 +66,31 @@ def display():
 
 
 def update():
-    """
-    *FIX
     if site_app.get() != "":
         conn = sqlite3.connect("passmanager.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT *, oid FROM manager")
-        records = cursor.fetchall()
-        for record in records:
-            website = record[0]
-            if website == site_app.get():
-                record[2] = new_user_id.get()
-                record[3] = new_pass.get()
-                break
+        cursor.execute("UPDATE manager SET id=?, password=? WHERE website=?",
+                       (new_user_id.get(), new_pass.get(), site_app.get()))
         conn.commit()
         conn.close()
         update_success.config(text="Update Successful", fg="Green")
     else:
         update_success.config(text="Update Unsuccessful. Site/App "
                                    "Cannot Be Blank", fg="Red")
-    """
+
+
+def delete_info():
+    if delete_site.get() != "":
+        conn = sqlite3.connect("passmanager.db")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM manager WHERE website=?",
+                       (delete_site.get(),))
+        conn.commit()
+        conn.close()
+        delete_success.config(text="Deletion Successful", fg="Green")
+    else:
+        delete_success.config(text="Deletion Unsuccessful. Site/App "
+                                   "Cannot Be Blank", fg="Red")
 
 
 def change_to_add():
@@ -101,6 +106,7 @@ def change_to_update():
     main_menu.forget()
     add_frame.forget()
     query_frame.forget()
+    delete_frame.forget()
     update_frame.pack(fill="both", expand=1)
 
 
@@ -109,7 +115,9 @@ def change_to_query():
     main_menu.forget()
     add_frame.forget()
     update_frame.forget()
+    delete_frame.forget()
     query_frame.pack(fill="both", expand=1)
+    query_display.pack_forget()
 
 
 def change_to_main():
@@ -117,21 +125,39 @@ def change_to_main():
     query_frame.forget()
     add_frame.forget()
     update_frame.forget()
+    delete_frame.forget()
     main_menu.pack(fill="both", expand=1)
+
+
+def change_to_delete():
+    manager_screen.title("Delete Entry")
+    query_frame.forget()
+    add_frame.forget()
+    update_frame.forget()
+    main_menu.forget()
+    delete_frame.pack(fill="both", expand=1)
 
 
 main_menu = Frame(manager_screen)
 add_frame = Frame(manager_screen)
 update_frame = Frame(manager_screen)
 query_frame = Frame(manager_screen)
+delete_frame = Frame(manager_screen)
+
 
 Label(main_menu, text="Welcome!", font=25).pack()
 Label(main_menu, text="").pack()
-Button(main_menu, text="Add New Record", height="2", width="30", command=change_to_add).pack()
+Button(main_menu, text="Add New Record", height="2", width="30",
+       command=change_to_add).pack()
 Label(main_menu, text="").pack()
-Button(main_menu, text="Update Record", height="2", width="30", command=change_to_update).pack()
+Button(main_menu, text="Update Record", height="2", width="30",
+       command=change_to_update).pack()
 Label(main_menu, text="").pack()
-Button(main_menu, text="Show All Records", height="2", width="30", command=change_to_query).pack()
+Button(main_menu, text="Delete Entries", height="2", width="30",
+       command=change_to_delete).pack()
+Label(main_menu, text="").pack()
+Button(main_menu, text="Show All Records", height="2", width="30",
+       command=change_to_query).pack()
 
 
 Label(add_frame, text="Add New Record", font=25).pack()
@@ -154,6 +180,7 @@ Button(add_frame, text="Back To Main",
 did_add = Label(add_frame, text="")
 did_add.pack()
 
+
 Label(update_frame, text="Update Record", font=25).pack()
 Label(update_frame, text="Website/App to Update").pack()
 site_app = Entry(update_frame)
@@ -167,12 +194,24 @@ new_pass.pack()
 Button(update_frame, text="Update", command=update).pack()
 Button(update_frame, text="Back To Main", command=change_to_main).pack()
 update_success = Label(update_frame, text="")
+update_success.pack()
 
+Label(query_frame,text="All Records", font=25).pack()
+query_display = Label(query_frame, anchor="nw")
+query_display.pack()
 show_query = Button(query_frame, text="Show All Saved Info", command=display)
 show_query.pack()
-query_display = Label(query_frame, anchor="nw")
-Button(query_frame, text="Back To Main", command=change_to_main).pack()
+Button(query_frame, text="Back To Main", anchor="s", command=change_to_main).pack()
 
+
+Label(delete_frame, text="Delete Entry").pack()
+Label(delete_frame, text="Entry to be Deleted:").pack()
+delete_site = Entry(delete_frame)
+delete_site.pack()
+Button(delete_frame, text="Delete", command=delete_info).pack()
+Button(delete_frame, text="Back To Main", command=change_to_main).pack()
+delete_success = Label(delete_frame, text="")
+delete_success.pack()
 
 main_menu.pack(fill='both', expand=1)
 
