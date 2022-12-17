@@ -56,10 +56,36 @@ def display():
     show_query.place_forget()
     cursor.execute("SELECT *, oid FROM manager")
     records = cursor.fetchall()
-    query_display['text'] = records
+    all_recs = ""
+    for record in records:
+        all_recs += str(record) + "\n"
+    query_display['text'] = all_recs
     query_display.pack()
     conn.commit()
     conn.close()
+
+
+def update():
+    """
+    *FIX
+    if site_app.get() != "":
+        conn = sqlite3.connect("passmanager.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT *, oid FROM manager")
+        records = cursor.fetchall()
+        for record in records:
+            website = record[0]
+            if website == site_app.get():
+                record[2] = new_user_id.get()
+                record[3] = new_pass.get()
+                break
+        conn.commit()
+        conn.close()
+        update_success.config(text="Update Successful", fg="Green")
+    else:
+        update_success.config(text="Update Unsuccessful. Site/App "
+                                   "Cannot Be Blank", fg="Red")
+    """
 
 
 def change_to_add():
@@ -138,9 +164,9 @@ new_user_id.pack()
 Label(update_frame, text="New Password").pack()
 new_pass = Entry(update_frame)
 new_pass.pack()
-Button(update_frame, text="Update").pack()
+Button(update_frame, text="Update", command=update).pack()
 Button(update_frame, text="Back To Main", command=change_to_main).pack()
-
+update_success = Label(update_frame, text="")
 
 show_query = Button(query_frame, text="Show All Saved Info", command=display)
 show_query.pack()
