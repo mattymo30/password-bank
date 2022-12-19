@@ -25,11 +25,15 @@ def config_table(username):
     return conn
 
 
+def open_table(username):
+    conn = sqlite3.connect(username + ".db")
+    cursor = conn.cursor()
+    return conn, cursor
+
+
 def submit_new():
 
-    user_conn = config_table(user_login)
-    cursor = user_conn.cursor()
-
+    conn, cursor = open_table(user_login)
     if (web_name.get() != "" and url_name.get() != ""
             and user_id.get() != "" and password.get() != ""):
         cursor.execute("INSERT INTO manager "
@@ -41,8 +45,8 @@ def submit_new():
                         'password': password.get()
                        }
                        )
-        user_conn.commit()
-        user_conn.close()
+        conn.commit()
+        conn.close()
         web_name.delete(0, END)
         url_name.delete(0, END)
         user_id.delete(0, END)
@@ -54,8 +58,7 @@ def submit_new():
 
 
 def display():
-    user_conn = config_table(user_login)
-    cursor = user_conn.cursor()
+    conn, cursor = open_table(user_login)
     cursor.execute("SELECT *, oid FROM manager")
     records = cursor.fetchall()
     all_recs = "Site:\tURL:\tID:\tPassword:\n"
@@ -64,18 +67,17 @@ def display():
                     "\t" + record[3] + "\n"
     query_display['text'] = all_recs
     query_display.pack()
-    user_conn.commit()
-    user_conn.close()
+    conn.commit()
+    conn.close()
 
 
 def update():
     if site_app.get() != "":
-        user_conn = config_table(user_login)
-        cursor = user_conn.cursor()
+        conn, cursor = open_table(user_login)
         cursor.execute("UPDATE manager SET id=?, password=? WHERE website=?",
                        (new_user_id.get(), new_pass.get(), site_app.get()))
-        user_conn.commit()
-        user_conn.close()
+        conn.commit()
+        conn.close()
         update_success.config(text="Update Successful", fg="Green")
     else:
         update_success.config(text="Update Unsuccessful. Site/App "
@@ -84,12 +86,11 @@ def update():
 
 def delete_info():
     if delete_site.get() != "":
-        user_conn = config_table(user_login)
-        cursor = user_conn.cursor()
+        conn, cursor = open_table(user_login)
         cursor.execute("DELETE FROM manager WHERE website=?",
                        (delete_site.get(),))
-        user_conn.commit()
-        user_conn.close()
+        conn.commit()
+        conn.close()
         delete_success.config(text="Deletion Successful", fg="Green")
     else:
         delete_success.config(text="Deletion Unsuccessful. Site/App "
