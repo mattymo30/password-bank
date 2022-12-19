@@ -1,6 +1,7 @@
 from tkinter import *
 import sqlite3
 
+
 manager_screen = Tk()
 manager_screen.title("Password Manager")
 width = 400
@@ -10,6 +11,7 @@ screen_height = manager_screen.winfo_screenheight()  # Height of the screen
 x = (screen_width / 2) - (width / 2)
 y = (screen_height / 2) - (height / 2)
 manager_screen.geometry("%dx%d+%d+%d" % (width, height, x, y))
+
 
 conn = sqlite3.connect("passmanager.db")
 cursor = conn.cursor()

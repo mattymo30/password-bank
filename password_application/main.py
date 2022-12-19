@@ -69,7 +69,9 @@ def check_register(user, passw):
 def login(user, passw):
     login_correct = register.check_login(user, passw)
     if login_correct is True:
-        login_success.config(text="Login Successful", fg="Green")
+        login_screen.destroy()
+        import password_manager
+        password_manager.main()
     else:
         login_success.config(text="Login failed. Please check username and"
                                   " password", fg="Red")
