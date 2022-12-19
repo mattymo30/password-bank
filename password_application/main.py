@@ -71,7 +71,7 @@ def login(user, passw):
     if login_correct is True:
         login_screen.destroy()
         import password_manager
-        password_manager.main()
+        password_manager.main(user)
     else:
         login_success.config(text="Login failed. Please check username and"
                                   " password", fg="Red")

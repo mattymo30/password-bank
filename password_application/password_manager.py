@@ -13,21 +13,22 @@ y = (screen_height / 2) - (height / 2)
 manager_screen.geometry("%dx%d+%d+%d" % (width, height, x, y))
 
 
-conn = sqlite3.connect("passmanager.db")
-cursor = conn.cursor()
-cursor.execute("""
-                CREATE TABLE IF NOT EXISTS manager (
-                website NOT NULL, 
-                url NOT NULL, 
-                id NOT NULL, 
-                password NOT NULL)""")
-conn.commit()
-conn.close()
+def config_table(username):
+    conn = sqlite3.connect(username + ".db")
+    cursor = conn.cursor()
+    cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS manager (
+                    website NOT NULL, 
+                    url NOT NULL, 
+                    id NOT NULL, 
+                    password NOT NULL)""")
+    return conn
 
 
 def submit_new():
-    conn = sqlite3.connect("passmanager.db")
-    cursor = conn.cursor()
+
+    user_conn = config_table(user_login)
+    cursor = user_conn.cursor()
 
     if (web_name.get() != "" and url_name.get() != ""
             and user_id.get() != "" and password.get() != ""):
@@ -40,8 +41,8 @@ def submit_new():
                         'password': password.get()
                        }
                        )
-        conn.commit()
-        conn.close()
+        user_conn.commit()
+        user_conn.close()
         web_name.delete(0, END)
         url_name.delete(0, END)
         user_id.delete(0, END)
@@ -53,8 +54,8 @@ def submit_new():
 
 
 def display():
-    conn = sqlite3.connect("passmanager.db")
-    cursor = conn.cursor()
+    user_conn = config_table(user_login)
+    cursor = user_conn.cursor()
     cursor.execute("SELECT *, oid FROM manager")
     records = cursor.fetchall()
     all_recs = "Site:\tURL:\tID:\tPassword:\n"
@@ -63,18 +64,18 @@ def display():
                     "\t" + record[3] + "\n"
     query_display['text'] = all_recs
     query_display.pack()
-    conn.commit()
-    conn.close()
+    user_conn.commit()
+    user_conn.close()
 
 
 def update():
     if site_app.get() != "":
-        conn = sqlite3.connect("passmanager.db")
-        cursor = conn.cursor()
+        user_conn = config_table(user_login)
+        cursor = user_conn.cursor()
         cursor.execute("UPDATE manager SET id=?, password=? WHERE website=?",
                        (new_user_id.get(), new_pass.get(), site_app.get()))
-        conn.commit()
-        conn.close()
+        user_conn.commit()
+        user_conn.close()
         update_success.config(text="Update Successful", fg="Green")
     else:
         update_success.config(text="Update Unsuccessful. Site/App "
@@ -83,12 +84,12 @@ def update():
 
 def delete_info():
     if delete_site.get() != "":
-        conn = sqlite3.connect("passmanager.db")
-        cursor = conn.cursor()
+        user_conn = config_table(user_login)
+        cursor = user_conn.cursor()
         cursor.execute("DELETE FROM manager WHERE website=?",
                        (delete_site.get(),))
-        conn.commit()
-        conn.close()
+        user_conn.commit()
+        user_conn.close()
         delete_success.config(text="Deletion Successful", fg="Green")
     else:
         delete_success.config(text="Deletion Unsuccessful. Site/App "
@@ -198,7 +199,7 @@ Button(update_frame, text="Back To Main", command=change_to_main).pack()
 update_success = Label(update_frame, text="")
 update_success.pack()
 
-Label(query_frame,text="All Records", font=25).pack()
+Label(query_frame, text="All Records", font=25).pack()
 query_display = Label(query_frame, anchor="nw")
 query_display.pack()
 show_query = Button(query_frame, text="Show All Saved Info", command=display)
@@ -218,7 +219,12 @@ delete_success.pack()
 main_menu.pack(fill='both', expand=1)
 
 
-def main():
+def main(username="passmanager"):
+    global user_login
+    user_login = username
+    user_conn = config_table(user_login)
+    user_conn.commit()
+    user_conn.close()
     manager_screen.mainloop()
 
 
