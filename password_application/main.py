@@ -1,5 +1,5 @@
 from tkinter import *  # import tkinter for GUI
-import register
+import register  # for registration and login
 
 # start up a screen with dimensions of 400x300 pixels
 login_screen = Tk()

@@ -107,6 +107,8 @@ def update():
             conn.commit()
             conn.close()
             update_success.config(text="Update Successful", fg="Green")
+            new_user_id.delete(0, END)
+            new_pass.delete(0, END)
         else:
             update_success.config(text="Update Unsuccessful. New Username or "
                                        "Password Cannot Be Blank", fg="Red")
@@ -259,9 +261,9 @@ update_success.pack()
 Label(query_frame, text="All Records", font=25).pack()
 query_display = Label(query_frame, anchor="nw")
 query_display.pack()
+Button(query_frame, text="Back To Main", anchor="s", command=change_to_main).pack(side="bottom")
 show_query = Button(query_frame, text="Show All Saved Info", command=display)
-show_query.pack()
-Button(query_frame, text="Back To Main", anchor="s", command=change_to_main).pack()
+show_query.pack(side="bottom")
 
 
 # delete frame widgets
