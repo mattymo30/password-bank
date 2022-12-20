@@ -64,7 +64,8 @@ def check_register(user, passw):
                                      " password", fg="Red")
     else:
         is_good_register.config(text="Registration Successful", fg="Green")
-
+        username.delete(0, END)
+        password.delete(0, END)
 
 def login(user, passw):
     login_correct = register.check_login(user, passw)
@@ -91,8 +92,6 @@ Button(entry_frame, text="Register", height="2", width="30", command=change_to_r
 
 # widgets for register frame
 Label(register_frame, text="Register User", font=25).pack()
-Label(register_frame, text="First Name").pack()
-
 Label(register_frame, text="Username").pack()
 username = Entry(register_frame)
 username.pack()

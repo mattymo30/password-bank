@@ -52,8 +52,18 @@ def registration(username, password):
     login information into txt files
     :param username: the user inputted username
     :param password: the user inputted password
-    :return: only returns False if check_user_password returns False as well
+    :return: returns False if check_user_password returns False as well or
+    username is already in the database
     """
+    data_file = open("database.bin", 'rb')
+    for (i, line) in enumerate(data_file):
+        # split line based on tabs and decode the username
+        line_split = line.split(bytes('\t', 'utf-8'))
+        user = line_split[0].decode()
+        if user == username:
+            data_file.close()
+            return False
+    data_file.close()
     # check username and password, if either is not valid, return False
     if check_user_password(username, password) is False:
         print("Invalid Credentials")
