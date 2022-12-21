@@ -112,6 +112,7 @@ def registration(username, password):
 
 
 def check_login(username, password):
+    error_message = ""
     # open binary files that hold login info and keys
     data_file = open("database.bin", 'rb')
     key_file = open("keys.bin", 'rb')
@@ -131,16 +132,17 @@ def check_login(username, password):
             decrypted_pass = f.decrypt(line_split[1]).decode()
             # if password is correct
             if decrypted_pass == password:
-                return True
+                return error_message, True
             else:
                 # password was incorrect
-                return False
+                error_message = "Password is Incorrect"
+                return error_message, False
     # if for loop goes through all of data_file and no username matches,
     # return False
-    print("Username not in database")
     data_file.close()
     key_file.close()
-    return False
+    error_message = "Username not in database"
+    return error_message, False
 
 
 def main():

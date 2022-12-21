@@ -75,14 +75,13 @@ def check_register(user, passw):
 
 
 def login(user, passw):
-    login_correct = register.check_login(user, passw)
+    error, login_correct = register.check_login(user, passw)
     if login_correct is True:
         login_screen.destroy()
         import password_manager
         password_manager.main(user)
     else:
-        login_success.config(text="Login failed. Please check username and"
-                                  " password", fg="Red")
+        login_success.config(text="Login failed. " + error, fg="Red")
 
 
 # create all frames, only one will be visible at a time
