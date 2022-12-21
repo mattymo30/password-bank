@@ -9,12 +9,13 @@ def check_user_password(username, password):
     :param password: the user inputted password
     :return: a bool value if both username and password are valid entries
     """
+    error_codes = []
     user = list(username)  # turn username into a list of its chars
     for char in user:
         # check for every char if it is a space, if so, return False
         if char == " ":
-            print("Username Cannot Have Spaces")
-            return False
+            error_codes.append(1)
+            return error_codes, False
     pass_list = list(password)  # turn password into a list of chars
     has_caps = False
     has_digit = False
@@ -35,15 +36,17 @@ def check_user_password(username, password):
     # of password is at least 8 chars, if all conditions are met, return True
     if (has_caps is True and has_space is False and has_digit is True
             and length >= 8):
-        return True
+        return error_codes, True
     # if a condition fails, print why password failed and return False
     if has_caps is False:
-        print("Password Must Have One Upper Case Letter")
+        error_codes.append(2)
     if has_space is True:
-        print("Password Cannot Have Spaces")
+        error_codes.append(3)
     if has_digit is False:
-        print("Password Must Have One Digit")
-    return False
+        error_codes.append(4)
+    if length < 8:
+        error_codes.append(5)
+    return error_codes, False
 
 
 def registration(username, password):
@@ -56,18 +59,33 @@ def registration(username, password):
     username is already in the database
     """
     data_file = open("database.bin", 'rb')
+    error_message_list = []
     for (i, line) in enumerate(data_file):
         # split line based on tabs and decode the username
         line_split = line.split(bytes('\t', 'utf-8'))
         user = line_split[0].decode()
         if user == username:
             data_file.close()
-            return False
+            error_message_list.append("Username Already Exists in Database")
+            return error_message_list, False
     data_file.close()
     # check username and password, if either is not valid, return False
-    if check_user_password(username, password) is False:
-        print("Invalid Credentials")
-        return False
+    error_list, is_good = check_user_password(username, password)
+    if is_good is False:
+        for error in error_list:
+            if error == 1:
+                error_message_list.append("Username Cannot Have Spaces")
+            elif error == 2:
+                error_message_list.append("Password Must Have "
+                                          "One Upper Case Letter")
+            elif error == 3:
+                error_message_list.append("Password Cannot Have Spaces")
+            elif error == 4:
+                error_message_list.append("Password Must Have One Digit")
+            elif error == 5:
+                error_message_list.append("Password Must Be At Least"
+                                          " 8 Characters")
+        return error_message_list, False
     # if registration is successful and both credentials pass
     else:
         # generate a unique key for the user's registration
@@ -90,6 +108,7 @@ def registration(username, password):
         key_file.write(key)
         key_file.write(bytes('\n', 'utf-8'))
         key_file.close()
+        return error_message_list, True
 
 
 def check_login(username, password):

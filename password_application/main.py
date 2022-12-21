@@ -1,5 +1,7 @@
 from tkinter import *  # import tkinter for GUI
-import register  # for registration and login
+from tkinter import messagebox
+import register  # for registration and log
+
 
 # start up a screen with dimensions of 400x300 pixels
 login_screen = Tk()
@@ -58,14 +60,19 @@ def change_to_entry():
 
 
 def check_register(user, passw):
-    did_register = register.registration(user, passw)
+    error_list, did_register = register.registration(user, passw)
     if did_register is False:
-        is_good_register.config(text="Please enter a valid username and"
-                                     " password", fg="Red")
+        error_message = ""
+        for error in error_list:
+            error_message += error + "\n"
+        messagebox.showerror(title="Registration Unsuccessful",
+                             message=error_message)
+
     else:
         is_good_register.config(text="Registration Successful", fg="Green")
         username.delete(0, END)
         password.delete(0, END)
+
 
 def login(user, passw):
     login_correct = register.check_login(user, passw)
