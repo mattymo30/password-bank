@@ -6,8 +6,8 @@ import register  # for registration and log
 # start up a screen with dimensions of 400x300 pixels
 login_screen = Tk()
 login_screen.title("Login Page")
-width = 400
-height = 300
+width = 500
+height = 400
 screen_width = login_screen.winfo_screenwidth()  # Width of the screen
 screen_height = login_screen.winfo_screenheight()  # Height of the screen
 x = (screen_width / 2) - (width / 2)

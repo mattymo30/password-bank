@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="" />
+    <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/passmanager.db" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/passmanager.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/password_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/password_manager.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,13 +107,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/password_manager.py</url>
-          <line>284</line>
+          <line>303</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/password_application/register.py</url>
           <line>72</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/password_application/password_manager.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

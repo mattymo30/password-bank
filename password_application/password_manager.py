@@ -4,8 +4,8 @@ import sqlite3
 # start up screen with dimensions 400x300 centered to user's screen
 manager_screen = Tk()
 manager_screen.title("Password Manager")
-width = 400
-height = 300
+width = 500
+height = 400
 screen_width = manager_screen.winfo_screenwidth()  # Width of the screen
 screen_height = manager_screen.winfo_screenheight()  # Height of the screen
 x = (screen_width / 2) - (width / 2)
@@ -55,10 +55,10 @@ def submit_new():
         cursor.execute("INSERT INTO manager "
                        "VALUES (:website, :url, :id, :password)",
                        {
-                        'website': web_name.get(),
-                        'url': url_name.get(),
-                        'id': user_id.get(),
-                        'password': password.get()
+                           'website': web_name.get(),
+                           'url': url_name.get(),
+                           'id': user_id.get(),
+                           'password': password.get()
                        }
                        )
         conn.commit()
@@ -83,11 +83,12 @@ def display():
     cursor.execute("SELECT *, oid FROM manager")
     # fetch all records in the database and set a string to hold all vals
     records = cursor.fetchall()
+    query_display.delete("1.0", "end")
     all_recs = "Site:\tURL:\tID:\tPassword:\n"
     for record in records:
-        all_recs += record[0] + "\t" + record[1] + "\t" + record[2] +\
+        all_recs += record[0] + "\t" + record[1] + "\t" + record[2] + \
                     "\t" + record[3] + "\n"
-    query_display['text'] = all_recs
+    query_display.insert(INSERT, all_recs)
     query_display.pack()
     conn.commit()
     conn.close()
@@ -102,13 +103,23 @@ def update():
         # check if new username and new password entries are not blank
         if new_user_id.get() != "" or new_pass.get() != "":
             conn, cursor = open_table(user_login)
-            cursor.execute("UPDATE manager SET id=?, password=? WHERE website=?",
-                       (new_user_id.get(), new_pass.get(), site_app.get()))
-            conn.commit()
-            conn.close()
-            update_success.config(text="Update Successful", fg="Green")
-            new_user_id.delete(0, END)
-            new_pass.delete(0, END)
+            cursor.execute("SELECT *, oid FROM manager")
+            records = cursor.fetchall()
+            for record in records:
+                if record[0] == site_app.get():
+                    cursor.execute("UPDATE manager SET id=?, "
+                                   "password=? WHERE website=?",
+                                   (new_user_id.get(), new_pass.get(),
+                                    site_app.get()))
+                    conn.commit()
+                    conn.close()
+                    update_success.config(text="Update Successful", fg="Green")
+                    site_app.delete(0, END)
+                    new_user_id.delete(0, END)
+                    new_pass.delete(0, END)
+                    return
+            update_success.config(text="Update Unsuccessful. Site/App "
+                                       "Does Not Exist in Database", fg="Red")
         else:
             update_success.config(text="Update Unsuccessful. New Username or "
                                        "Password Cannot Be Blank", fg="Red")
@@ -124,11 +135,19 @@ def delete_info():
     # check if site entry was not left blank by user
     if delete_site.get() != "":
         conn, cursor = open_table(user_login)
-        cursor.execute("DELETE FROM manager WHERE website=?",
-                       (delete_site.get(),))
-        conn.commit()
-        conn.close()
-        delete_success.config(text="Deletion Successful", fg="Green")
+        cursor.execute("SELECT *, oid FROM manager")
+        records = cursor.fetchall()
+        for record in records:
+            if record[0] == site_app.get():
+                cursor.execute("DELETE FROM manager WHERE website=?",
+                               (delete_site.get(),))
+                conn.commit()
+                conn.close()
+                delete_success.config(text="Deletion Successful", fg="Green")
+                delete_site.delete(0, END)
+                return
+        delete_success.config(text="Deletion Unsuccessful. Site/App "
+                                   "Does Not Exist in Database", fg="Red")
     else:
         delete_success.config(text="Deletion Unsuccessful. Site/App "
                                    "Cannot Be Blank", fg="Red")
@@ -143,6 +162,7 @@ def change_to_add():
     update_frame.forget()
     query_frame.forget()
     add_frame.pack(fill="both", expand=1)
+    did_add['text'] = ""
 
 
 def change_to_update():
@@ -155,6 +175,7 @@ def change_to_update():
     query_frame.forget()
     delete_frame.forget()
     update_frame.pack(fill="both", expand=1)
+    update_success['text'] = ""
 
 
 def change_to_query():
@@ -192,6 +213,7 @@ def change_to_delete():
     update_frame.forget()
     main_menu.forget()
     delete_frame.pack(fill="both", expand=1)
+    delete_success['text'] = ""
 
 
 # create all the frames for the manager
@@ -200,7 +222,6 @@ add_frame = Frame(manager_screen)
 update_frame = Frame(manager_screen)
 query_frame = Frame(manager_screen)
 delete_frame = Frame(manager_screen)
-
 
 # main frame widgets
 Label(main_menu, text="Welcome!", font=25).pack()
@@ -216,7 +237,6 @@ Button(main_menu, text="Delete Entries", height="2", width="30",
 Label(main_menu, text="").pack()
 Button(main_menu, text="Show All Records", height="2", width="30",
        command=change_to_query).pack()
-
 
 # add frame widgets
 Label(add_frame, text="Add New Record", font=25).pack()
@@ -239,7 +259,6 @@ Button(add_frame, text="Back To Main",
 did_add = Label(add_frame, text="")
 did_add.pack()
 
-
 # update frame widgets
 Label(update_frame, text="Update Record", font=25).pack()
 Label(update_frame, text="Website/App to Update").pack()
@@ -256,15 +275,16 @@ Button(update_frame, text="Back To Main", command=change_to_main).pack()
 update_success = Label(update_frame, text="")
 update_success.pack()
 
-
 # query frame widgets
 Label(query_frame, text="All Records", font=25).pack()
-query_display = Label(query_frame, anchor="nw")
+query_display = Text(query_frame)
 query_display.pack()
 Button(query_frame, text="Back To Main", anchor="s", command=change_to_main).pack(side="bottom")
 show_query = Button(query_frame, text="Show All Saved Info", command=display)
 show_query.pack(side="bottom")
-
+v = Scrollbar(query_frame, orient='vertical')
+v.pack(side=RIGHT, fill=Y)
+v.config(command=query_display.yview)
 
 # delete frame widgets
 Label(delete_frame, text="Delete Entry").pack()
@@ -275,7 +295,6 @@ Button(delete_frame, text="Delete", command=delete_info).pack()
 Button(delete_frame, text="Back To Main", command=change_to_main).pack()
 delete_success = Label(delete_frame, text="")
 delete_success.pack()
-
 
 # the main frame needs to be shown when the program starts
 # pack to screen first and call mainloop() on the manager_screen
