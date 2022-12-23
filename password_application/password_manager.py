@@ -1,5 +1,6 @@
 from tkinter import *
 import sqlite3
+from tkinter import messagebox
 
 # start up screen with dimensions 400x300 centered to user's screen
 manager_screen = Tk()
@@ -152,6 +153,14 @@ def update():
                                    "Cannot Be Blank", fg="Red")
 
 
+def confirm_delete():
+    answer = messagebox.askyesno(title="Confirm Deletion",
+                                 message="Are you sure you want to delete "
+                                         "the saved info?")
+    if answer:
+        delete_info()
+
+
 def delete_info():
     """
     delete an entry in the user's database
@@ -187,6 +196,10 @@ def change_to_add():
     query_frame.forget()
     add_frame.pack(fill="both", expand=1)
     did_add['text'] = ""
+    web_name.delete(0, END)
+    url_name.delete(0, END)
+    user_id.delete(0, END)
+    password.delete(0, END)
 
 
 def change_to_update():
@@ -200,6 +213,9 @@ def change_to_update():
     delete_frame.forget()
     update_frame.pack(fill="both", expand=1)
     update_success['text'] = ""
+    site_app.delete(0, END)
+    new_user_id.delete(0, END)
+    new_pass.delete(0, END)
 
 
 def change_to_query():
@@ -241,6 +257,7 @@ def change_to_delete():
     main_menu.forget()
     delete_frame.pack(fill="both", expand=1)
     delete_success['text'] = ""
+    delete_site.delete(0, END)
 
 
 # create all the frames for the manager
@@ -342,7 +359,7 @@ Label(delete_frame, text="Delete Entry").pack()
 Label(delete_frame, text="Entry to be Deleted:").pack()
 delete_site = Entry(delete_frame)
 delete_site.pack()
-Button(delete_frame, text="Delete", command=delete_info).pack()
+Button(delete_frame, text="Delete", command=confirm_delete).pack()
 Button(delete_frame, text="Back To Main", command=change_to_main).pack()
 delete_success = Label(delete_frame, text="")
 delete_success.pack()
