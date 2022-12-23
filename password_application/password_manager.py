@@ -83,7 +83,30 @@ def display():
     cursor.execute("SELECT *, oid FROM manager")
     # fetch all records in the database and set a string to hold all vals
     records = cursor.fetchall()
-    query_display.delete("1.0", "end")
+    site_display.delete("1.0", "end")
+    url_display.delete("1.0", "end")
+    user_display.delete("1.0", "end")
+    pass_display.delete("1.0", "end")
+    all_sites = "Site:\n"
+    all_url = "URL:\n"
+    all_users = "ID:\n"
+    all_pass = "Password:\n"
+    for record in records:
+        all_sites += record[0] + "\n"
+        all_url += record[1] + "\n"
+        all_users += record[2] + "\n"
+        all_pass += record[3] + "\n"
+    site_display.insert(INSERT, all_sites)
+    site_display.grid(row=1, column=0)
+    url_display.insert(INSERT, all_url)
+    url_display.grid(row=1, column=1)
+    user_display.insert(INSERT, all_users)
+    user_display.grid(row=1, column=2)
+    pass_display.insert(INSERT, all_pass)
+    pass_display.grid(row=1, column=3)
+    conn.commit()
+    conn.close()
+    """
     all_recs = "Site:\tURL:\tID:\tPassword:\n"
     for record in records:
         all_recs += record[0] + "\t" + record[1] + "\t" + record[2] + \
@@ -92,6 +115,7 @@ def display():
     query_display.pack()
     conn.commit()
     conn.close()
+    """
 
 
 def update():
@@ -138,7 +162,7 @@ def delete_info():
         cursor.execute("SELECT *, oid FROM manager")
         records = cursor.fetchall()
         for record in records:
-            if record[0] == site_app.get():
+            if record[0] == delete_site.get():
                 cursor.execute("DELETE FROM manager WHERE website=?",
                                (delete_site.get(),))
                 conn.commit()
@@ -188,7 +212,10 @@ def change_to_query():
     update_frame.forget()
     delete_frame.forget()
     query_frame.pack(fill="both", expand=1)
-    query_display.pack_forget()
+    site_display.delete("1.0", "end")
+    url_display.delete("1.0", "end")
+    user_display.delete("1.0", "end")
+    pass_display.delete("1.0", "end")
 
 
 def change_to_main():
@@ -259,6 +286,7 @@ Button(add_frame, text="Back To Main",
 did_add = Label(add_frame, text="")
 did_add.pack()
 
+
 # update frame widgets
 Label(update_frame, text="Update Record", font=25).pack()
 Label(update_frame, text="Website/App to Update").pack()
@@ -275,7 +303,28 @@ Button(update_frame, text="Back To Main", command=change_to_main).pack()
 update_success = Label(update_frame, text="")
 update_success.pack()
 
-# query frame widgets
+
+# query frame widgets (grid format)
+Label(query_frame, text="All Records", font=25, justify=CENTER).grid(row=0,
+                                                                     column=1,
+                                                                     columnspan=2)
+site_display = Text(query_frame, width=15, height=20)
+site_display.grid(row=1, column=0)
+url_display = Text(query_frame, width=15, height=20)
+url_display.grid(row=1, column=1)
+user_display = Text(query_frame, width=15, height=20)
+user_display.grid(row=1, column=2)
+pass_display = Text(query_frame, width=15, height=20)
+pass_display.grid(row=1, column=3)
+Label(query_frame, text="").grid(row=2)
+Button(query_frame, text="Back To Main", anchor="s", command=change_to_main)\
+    .grid(row=3, column=2)
+show_query = Button(query_frame, text="Show Saved Info", command=display)
+show_query.grid(row=3, column=1)
+
+
+# query frame widgets (pack format)
+"""
 Label(query_frame, text="All Records", font=25).pack()
 query_display = Text(query_frame)
 query_display.pack()
@@ -285,6 +334,8 @@ show_query.pack(side="bottom")
 v = Scrollbar(query_frame, orient='vertical')
 v.pack(side=RIGHT, fill=Y)
 v.config(command=query_display.yview)
+"""
+
 
 # delete frame widgets
 Label(delete_frame, text="Delete Entry").pack()
@@ -295,6 +346,7 @@ Button(delete_frame, text="Delete", command=delete_info).pack()
 Button(delete_frame, text="Back To Main", command=change_to_main).pack()
 delete_success = Label(delete_frame, text="")
 delete_success.pack()
+
 
 # the main frame needs to be shown when the program starts
 # pack to screen first and call mainloop() on the manager_screen
