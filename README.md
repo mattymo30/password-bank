@@ -1,6 +1,15 @@
-# password_bank
-First Personal Python Project to create a password bank using a GUI and cryptography libraries.
-Possible updates:
-Pretty print/updates to UI to look and interact better with users
-Encrypt database for every user
+# password-bank
+* First personal Python project to create a password bank 
+* Project utlizes Python tkinter GUI and Python cryptography libraries.
+
+## Technologies Used:
+Python
+
+## What I Learned:
+* Tkinter is one of the most popular and standard Python graphical user interface
+* The cryptography library provides high level an low level interfaces to common cryptographic algorithms and recipies
+
+
+
+
 
