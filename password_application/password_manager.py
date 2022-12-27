@@ -132,10 +132,16 @@ def update():
             records = cursor.fetchall()
             for record in records:
                 if record[0] == site_app.get():
-                    cursor.execute("UPDATE manager SET id=?, "
-                                   "password=? WHERE website=?",
-                                   (new_user_id.get(), new_pass.get(),
-                                    site_app.get()))
+                    if new_user_id.get() != "":
+                        cursor.execute("UPDATE manager SET id=? "
+                                       "WHERE website=?",
+                                       (new_user_id.get(),
+                                        site_app.get()))
+                    if new_pass.get() != "":
+                        cursor.execute("UPDATE manager SET password=? "
+                                       "WHERE website=?",
+                                       (new_pass.get(),
+                                        site_app.get()))
                     conn.commit()
                     conn.close()
                     update_success.config(text="Update Successful", fg="Green")
@@ -146,8 +152,8 @@ def update():
             update_success.config(text="Update Unsuccessful. Site/App "
                                        "Does Not Exist in Database", fg="Red")
         else:
-            update_success.config(text="Update Unsuccessful. New Username or "
-                                       "Password Cannot Be Blank", fg="Red")
+            update_success.config(text="Update Unsuccessful. New Username and "
+                                       "Password Cannot Be Blank.", fg="Red")
     else:
         update_success.config(text="Update Unsuccessful. Site/App "
                                    "Cannot Be Blank", fg="Red")
@@ -303,23 +309,21 @@ Button(add_frame, text="Back To Main",
 did_add = Label(add_frame, text="")
 did_add.pack()
 
-
 # update frame widgets
 Label(update_frame, text="Update Record", font=25).pack()
 Label(update_frame, text="Website/App to Update").pack()
 site_app = Entry(update_frame)
 site_app.pack()
-Label(update_frame, text="New Username/ID").pack()
+Label(update_frame, text="New Username/ID (Can Be Empty)").pack()
 new_user_id = Entry(update_frame)
 new_user_id.pack()
-Label(update_frame, text="New Password").pack()
+Label(update_frame, text="New Password (Can Be Empty)").pack()
 new_pass = Entry(update_frame)
 new_pass.pack()
 Button(update_frame, text="Update", command=update).pack()
 Button(update_frame, text="Back To Main", command=change_to_main).pack()
 update_success = Label(update_frame, text="")
 update_success.pack()
-
 
 # query frame widgets (grid format)
 Label(query_frame, text="All Records", font=25, justify=CENTER).grid(row=0,
@@ -334,11 +338,10 @@ user_display.grid(row=1, column=2)
 pass_display = Text(query_frame, width=15, height=20)
 pass_display.grid(row=1, column=3)
 Label(query_frame, text="").grid(row=2)
-Button(query_frame, text="Back To Main", anchor="s", command=change_to_main)\
+Button(query_frame, text="Back To Main", anchor="s", command=change_to_main) \
     .grid(row=3, column=2)
 show_query = Button(query_frame, text="Show Saved Info", command=display)
 show_query.grid(row=3, column=1)
-
 
 # query frame widgets (pack format)
 """
@@ -353,7 +356,6 @@ v.pack(side=RIGHT, fill=Y)
 v.config(command=query_display.yview)
 """
 
-
 # delete frame widgets
 Label(delete_frame, text="Delete Entry").pack()
 Label(delete_frame, text="Entry to be Deleted:").pack()
@@ -363,7 +365,6 @@ Button(delete_frame, text="Delete", command=confirm_delete).pack()
 Button(delete_frame, text="Back To Main", command=change_to_main).pack()
 delete_success = Label(delete_frame, text="")
 delete_success.pack()
-
 
 # the main frame needs to be shown when the program starts
 # pack to screen first and call mainloop() on the manager_screen
