@@ -372,7 +372,7 @@ main_menu.pack(fill='both', expand=1)
 
 
 def main(username="passmanager"):
-    # holds username from main.py when user logs in
+    # holds username from login_page.py when user logs in
     global user_login
     user_login = username
     # configure a new table if necessary

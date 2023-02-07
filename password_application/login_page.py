@@ -60,14 +60,25 @@ def change_to_entry():
 
 
 def check_register(user, passw):
+    """
+    check that the user successfully registered with the correct credentials
+    using register's registration function
+    :param user: the user given username for registration
+    :param passw: the user given password for registration
+    """
+    # check if there are any errors and if the registration was successful
     error_list, did_register = register.registration(user, passw)
+    # if registration failed
     if did_register is False:
+        # concatenate a string of all the errors in error_list and output
+        # to user
         error_message = ""
         for error in error_list:
             error_message += error + "\n"
         messagebox.showerror(title="Registration Unsuccessful",
                              message=error_message)
-
+    # if registration was successful output to user and reset frame to
+    # empty fields
     else:
         is_good_register.config(text="Registration Successful", fg="Green")
         username.delete(0, END)
@@ -75,11 +86,21 @@ def check_register(user, passw):
 
 
 def login(user, passw):
+    """
+    check if a user login was successful using register's check_login function
+    :param user: the user given username
+    :param passw:  the user given password
+    """
+    # check if login was successful and if there were any errors
     error, login_correct = register.check_login(user, passw)
+    # if login was a success
     if login_correct is True:
+        # destroy the login screen and call password_manager to access the
+        # user's specific password manager
         login_screen.destroy()
         import password_manager
         password_manager.main(user)
+    # if login failed, output the error that caused the fail to the user
     else:
         login_success.config(text="Login failed. " + error, fg="Red")
 
