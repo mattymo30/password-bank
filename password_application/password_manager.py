@@ -1,6 +1,7 @@
 from tkinter import *
 import sqlite3
-from tkinter import messagebox
+from tkinter import messagebox as mb
+import gen_password
 
 # start up screen with dimensions 400x300 centered to user's screen
 manager_screen = Tk()
@@ -160,7 +161,7 @@ def update():
 
 
 def confirm_delete():
-    answer = messagebox.askyesno(title="Confirm Deletion",
+    answer = mb.askyesno(title="Confirm Deletion",
                                  message="Are you sure you want to delete "
                                          "the saved info?")
     if answer:
@@ -190,6 +191,18 @@ def delete_info():
     else:
         delete_success.config(text="Deletion Unsuccessful. Site/App "
                                    "Cannot Be Blank", fg="Red")
+
+
+def random_password():
+    """
+    Generate a random password with the gen_password program
+    if a valid password is created, set the password entry to the
+    created one
+    """
+    rand_password = gen_password.main()
+    if rand_password != "None":
+        password.delete(0, END)
+        password.insert(0, rand_password)
 
 
 def change_to_add():
@@ -304,6 +317,8 @@ password = Entry(add_frame)
 password.pack()
 Button(add_frame, text="Add",
        command=submit_new).pack()
+Button(add_frame, text="Get Random Password",
+       command=random_password).pack()
 Button(add_frame, text="Back To Main",
        command=change_to_main).pack()
 did_add = Label(add_frame, text="")
