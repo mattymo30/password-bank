@@ -162,8 +162,8 @@ def update():
 
 def confirm_delete():
     answer = mb.askyesno(title="Confirm Deletion",
-                                 message="Are you sure you want to delete "
-                                         "the saved info?")
+                         message="Are you sure you want to delete "
+                                 "the saved info?")
     if answer:
         delete_info()
 

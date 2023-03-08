@@ -32,7 +32,7 @@ def check_user_password(username, password):
         elif char == " ":
             has_space = True
         length += 1  # increment length
-    # check if has_caps and has_digit is True, has_space is False, and length
+    # check has_caps and has_digit is True, has_space is False, and length
     # of password is at least 8 chars, if all conditions are met, return True
     if (has_caps is True and has_space is False and has_digit is True
             and length >= 8):
