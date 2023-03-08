@@ -7,6 +7,7 @@
     <list default="true" id="492ae844-3ae6-416c-83ee-f7446c257503" name="Changes" comment="Renamed main.py to login_page.py&#10;Made comments on the functions for login_page.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/password_application/gen_password.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/gen_password.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_application/password_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_application/password_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +128,11 @@
           <url>file://$PROJECT_DIR$/password_application/password_manager.py</url>
           <line>202</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/password_application/gen_password.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

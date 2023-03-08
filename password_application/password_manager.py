@@ -162,8 +162,8 @@ def update():
 
 def confirm_delete():
     answer = mb.askyesno(title="Confirm Deletion",
-                         message="Are you sure you want to delete "
-                                 "the saved info?")
+                                 message="Are you sure you want to delete "
+                                         "the saved info?")
     if answer:
         delete_info()
 
@@ -201,10 +201,10 @@ def random_password():
     """
     manager_screen.withdraw()
     rand_password = gen_password.main()
+    manager_screen.deiconify()
     if rand_password != "None":
         password.delete(0, END)
         password.insert(0, rand_password)
-    manager_screen.deiconify()
 
 
 def change_to_add():

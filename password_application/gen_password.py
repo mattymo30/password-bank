@@ -36,14 +36,22 @@ def main():
                             "Enter the number of letters for new "
                             "password between 0-30: ", minvalue=0,
                             maxvalue=30)
+    if pass_chars is None:
+        return "None"
+
     pass_numbs = askinteger("New Password",
                             "Enter the number of numbers for new "
                             "password between 0-30: ", minvalue=0,
                             maxvalue=30)
+    if pass_numbs is None:
+        return "None"
+
     pass_spec = askinteger("New Password",
                            "Enter the number of special characters for new "
                            "password between 0-30: ", minvalue=0,
                            maxvalue=30)
+    if pass_spec is None:
+        return "None"
 
     password = generate(pass_chars, pass_numbs, pass_spec)
     return str(password)
