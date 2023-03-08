@@ -1,35 +1,51 @@
+import string
 import tkinter as tk
 import random
 from tkinter import messagebox
 from tkinter.simpledialog import askinteger
 
 
-def generate(digits):
-    if digits <= 0 or digits > 30:
-        tk.messagebox.showwarning("INVALID", "Invalid number of digits")
+def generate(num_letters, num_numbs, num_spec):
+    total_chars = num_letters + num_numbs + num_spec
+    if total_chars > 30 or total_chars <= 0:
+        tk.messagebox.showwarning("INVALID", "Invalid number of letters, "
+                                             "numbers, and special characters")
     else:
-        password = ""
-        poss_symbol = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-                       't',
-                       'u',
-                       'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-                       'O',
-                       'P',
-                       'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                       '!', '#', '$', '%', '&', '(', ')', '*', '+']
-        for n in range(digits):
-            password = password + random.choice(poss_symbol)
+        password = []
+        poss_letters = string.ascii_letters
+        poss_nums = string.digits
+        poss_special = string.punctuation
 
-        return password
+        letter_counter = 0
+        num_counter = 0
+        spec_counter = 0
+        while len(password) < total_chars:
+            choice = random.randint(1, 3)
+            if choice == 1 and letter_counter < num_letters:
+                password.append(random.choice(poss_letters))
+            elif choice == 2 and num_counter < num_numbs:
+                password.append(random.choice(poss_nums))
+            elif choice == 3 and spec_counter < num_spec:
+                password.append(random.choice(poss_special))
+
+        return "".join(password)
 
 
 def main():
-    password_digits = \
-        askinteger("New Password",
-                   "Enter the number of digits for new "
-                   "password between 1-30: ")
-    password = generate(password_digits)
+    pass_chars = askinteger("New Password",
+                            "Enter the number of letters for new "
+                            "password between 0-30: ", minvalue=0,
+                            maxvalue=30)
+    pass_numbs = askinteger("New Password",
+                            "Enter the number of numbers for new "
+                            "password between 0-30: ", minvalue=0,
+                            maxvalue=30)
+    pass_spec = askinteger("New Password",
+                           "Enter the number of special characters for new "
+                           "password between 0-30: ", minvalue=0,
+                           maxvalue=30)
+
+    password = generate(pass_chars, pass_numbs, pass_spec)
     return str(password)
 
 
